@@ -1,24 +1,25 @@
 export const initialState = {
-  basket: [
-    {
-      id: "1",
-      title:
-        "PAPER PLANE DESIGN Birds Painting For Wall Set of 4 Brown Framed Art (BIRDS)",
-      price: 329,
-      rating: 4,
-      image: "https://m.media-amazon.com/images/I/71AR2MFv3IL._SL1500_.jpg",
-    },
-  ],
+  basket: [],
   user: null,
 };
 
-function reducer(state, action) {
+// Selector
+export const getBasketTotal = (basket) =>
+  basket?.reduce((amount, item) => item.price + amount, 0);
+
+const reducer = (state, action) => {
   console.log(action);
   switch (action.type) {
     case "ADD_TO_BASKET":
       return {
         ...state,
         basket: [...state.basket, action.item],
+      };
+
+    case "EMPTY_BASKET":
+      return {
+        ...state,
+        basket: [],
       };
 
     case "REMOVE_FROM_BASKET":
@@ -40,9 +41,15 @@ function reducer(state, action) {
         basket: newBasket,
       };
 
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.user,
+      };
+
     default:
       return state;
   }
-}
+};
 
 export default reducer;
